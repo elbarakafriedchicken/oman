@@ -172,19 +172,46 @@
                 let s = parseInt(cols[5]) || 0;
                 let d = parseInt(cols[6]) || 0;
 
-                // تحديد التصنيف الجديد بناءً على طلبك
-                let finalCat = "اضافات وجبات"; // الافتراضي هو الإضافات
+              // تحديد التصنيف بشكل منظم بدون تداخل
+let finalCat = "";
 
-                if (originalCat.includes("بروست")) finalCat = "بروست";
-                else if (originalCat.includes("استريبس") && !name.includes("قطعة")) finalCat = "استريبس";
-                else if (originalCat.includes("سندوتشات") || originalCat.includes("ساندوتش")) finalCat = "سندوتشات";
-                else if (originalCat.includes("فرايز")) finalCat = "اتشيكن فرايز";
+// أولاً: الأصناف الرئيسية
+if (originalCat.includes("بروست")) {
+    finalCat = "بروست";
+}
+else if (originalCat.includes("استريبس") && !name.includes("قطعة")) {
+    finalCat = "استريبس";
+}
+else if (originalCat.includes("سندوتش") || originalCat.includes("توستر")) {
+    finalCat = "سندوتشات";
+}
+else if (originalCat.includes("فرايز")) {
+    finalCat = "اتشيكن فرايز";
+}
 
-                // تجميع كل شيء آخر في اضافات وجبات (المياه، الصوصات، الكومبو، الخ)
-                const addonsKeywords = ["شيبس", "صوص", "كومبو", "مشروب", "قطعة استريبس", "مياه", "ماء", "خبز"];
-                if (addonsKeywords.some(key => name.includes(key)) || originalCat.includes("إضافات")) {
-                    finalCat = "اضافات وجبات";
-                }
+// ثانياً: الإضافات فقط
+const addonsKeywords = [
+    "صوص",
+    "مياه",
+    "ماء",
+    "مشروب",
+    "خبز",
+    "قطعة",
+    "إضافة",
+    "كومبو"
+];
+
+if (
+    addonsKeywords.some(key => name.includes(key)) ||
+    originalCat.includes("إضافات")
+) {
+    finalCat = "اضافات وجبات";
+}
+
+// لو مفيش تصنيف اتحط لأي سبب
+if (!finalCat) {
+    finalCat = "اضافات وجبات";
+}
 
                 // تغيير صورة الاستريبس
                 if (name.includes("استريبس")) {
@@ -364,3 +391,4 @@
 </script>
 </body>
 </html>
+
