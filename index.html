@@ -23,7 +23,8 @@
         }
         .home-logo { width: 140px; border-radius: 50%; border: 4px solid var(--main-yellow); margin-bottom: 15px; background:white; }
         
-        .info-tag { display: none; }
+        /* جعل شريط الوقت مرئياً */
+        .info-tag { display: block; background: var(--main-yellow); color: #000; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem; }
 
         .start-btn { background: var(--main-red); color: white; border: none; padding: 15px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4); }
         .start-btn:disabled { background: #888; cursor: not-allowed; box-shadow: none; }
@@ -79,7 +80,6 @@
 </head>
 <body>
 
-<!-- Custom Alert UI -->
 <div id="alert-overlay"></div>
 <div id="custom-alert">
     <p id="alert-text" style="font-weight: bold; margin-bottom: 20px;"></p>
@@ -89,7 +89,7 @@
 <div id="home-page">
     <img src="https://i.ibb.co/bRzWVmPC/logo.jpg" class="home-logo" alt="مطعم البركة">
     <h1 style="margin-bottom: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">مطعم البركة 🍗</h1>
-    <div class="info-tag">⏱️ استلام الطلب خلال 20 دقيقة فقط!</div>
+    <div id="delivery-info" class="info-tag">⏱️ استلام الطلب خلال 20 دقيقة فقط!</div>
     <button class="start-btn" id="start-btn" onclick="goToMenu()" disabled>جاري تحضير القائمة ⏳...</button>
     <div style="margin-top: 20px; font-size: 0.9rem; opacity: 0.9;">📍 الخوض | الخوير</div>
 </div>
@@ -136,7 +136,7 @@
     </div>
 
     <div class="opt-box">
-        <label style="color:var(--main-red); font-weight:bold;">📍 اختر فرع الاستلام (جاهز خلال 20 دقيقة):</label>
+        <label id="branch-label" style="color:var(--main-red); font-weight:bold;">📍 اختر فرع الاستلام (جاهز خلال 20 دقيقة):</label>
         <select id="branch-select" style="border: 2px solid var(--main-red); font-weight:bold;">
             <option value="فرع الخوض - شارع البركات">فرع الخوض - شارع البركات</option>
             <option value="فرع الخوير - شارع سوق الخوير">فرع الخوير - شارع سوق الخوير</option>
@@ -172,6 +172,9 @@
 <script>
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_mLvfHoHl4JY7Njpl7mfVL1gXbhg_tBbGyi-NWLacXPmRmPornWAg7bqDBGdNya2Ky_haLSvuBD6j/pub?output=csv";
     
+    // --- متغير وقت التوصيل الديناميكي ---
+    let deliveryTime = "20"; 
+
     const saucesUI = `
         <option value="صوص رانش">صوص رانش</option>
         <option value="صوص باربيكو">صوص باربيكو</option>
@@ -220,15 +223,24 @@
                 if(cols.length < 3) continue;
 
                 let cat = cols[0];
-                if (cat === "جبن اضافي") continue;
+                let name = cols[1];
+                let priceRaw = cols[2].replace(/[^\d.]/g, '');
+                let price = parseFloat(priceRaw) || 0;
+
+                // --- التحقق من وجود "وقت التوصيل" في الشيت ---
+                if (name === "وقت التوصيل") {
+                    deliveryTime = priceRaw; // يأخذ الرقم من خانة السعر
+                    document.getElementById('delivery-info').innerText = `⏱️ استلام الطلب خلال ${deliveryTime} دقيقة فقط!`;
+                    document.getElementById('branch-label').innerText = `📍 اختر فرع الاستلام (جاهز خلال ${deliveryTime} دقيقة):`;
+                    continue; // لا يضيفه للمنيو
+                }
+
+                if (cat === "جبن اضافي" || cat === "الاعدادات") continue;
 
                 const mergedCats = ["مشروبات", "باكت شيبس", "كومبو", "مياه", "خبز", "إضافات", "صوصات"];
                 if (mergedCats.includes(cat)) {
                     cat = "اضافات وجبات";
                 }
-
-                let name = cols[1];
-                let price = parseFloat(cols[2].replace(/[^\d.]/g, '')) || 0;
                 
                 let img = cols[3] ? cols[3].replace(/[\[\]]/g, '') : '';
                 if(name.includes("قطعة استريبس")) {
@@ -422,13 +434,11 @@
     function remove(i) { cart.splice(i, 1); goToCart(); document.getElementById('c-count').innerText = cart.length; }
 
     function submitOrder() {
-        // تنبيه السلة الفارغة
         if(!cart.length) {
             showAlert("سلة الطلبات فارغة، يرجى اختيار وجبات أولاً.");
             return;
         }
         
-        // التحقق من إدخال الاسم
         const custName = document.getElementById('customer-name').value.trim();
         if(!custName) {
             showAlert("يرجى كتابة اسم العميل أولاً.");
@@ -437,27 +447,23 @@
         }
 
         const branch = document.getElementById('branch-select').value;
-        
-        // تنبيه نهائي للتأكد من الفرع
         const confirmMsg = `عزيزي ${custName}، سيتم إرسال طلبك الآن إلى ${branch}. اضغط حسناً للمتابعة.`;
         showAlert(confirmMsg);
 
-        // تعديل بسيط: الإرسال يتم بعد إغلاق التنبيه أو مباشرة حسب التفضيل
-        // هنا سأجعله يفتح الواتساب بعد مدة قصيرة من ظهور التنبيه
         setTimeout(() => {
             let text = `*طلب جديد - مطعم البركة 🍗*\n`;
             text += `👤 *اسم العميل: ${custName}*\n`;
             text += `📍 فرع الاستلام: ${branch}\n`;
-            text += `⏱️ وقت الاستلام: خلال 20 دقيقة\n\n`;
+            text += `⏱️ وقت الاستلام: خلال ${deliveryTime} دقيقة\n\n`; // استخدام المتغير هنا
             
             cart.forEach(i => {
                 text += `▪️ *${i.name}* (العدد: ${i.qty})\n`;
-                if(i.flv) text += `   - الطعم: ${i.flv}\n`;
-                if(i.cheeseInfo) text += `   - الجبن: ${i.cheeseInfo}\n`;
-                if(i.sauces.length) text += `   - صوص: ${i.sauces.join('، ')}\n`;
-                if(i.drinks.length) text += `   - مشروب: ${i.drinks.join('، ')}\n`;
-                if(i.note) text += `   - ملاحظة: ${i.note}\n`;
-                text += `   - السعر: ${i.totalPrice.toFixed(3)} ر.ع\n\n`;
+                if(i.flv) text += `    - الطعم: ${i.flv}\n`;
+                if(i.cheeseInfo) text += `    - الجبن: ${i.cheeseInfo}\n`;
+                if(i.sauces.length) text += `    - صوص: ${i.sauces.join('، ')}\n`;
+                if(i.drinks.length) text += `    - مشروب: ${i.drinks.join('، ')}\n`;
+                if(i.note) text += `    - ملاحظة: ${i.note}\n`;
+                text += `    - السعر: ${i.totalPrice.toFixed(3)} ر.ع\n\n`;
             });
             text += `====================\n💰 *الإجمالي النهائي: ${document.getElementById('total-val').innerText} ر.ع*\n====================`;
             
