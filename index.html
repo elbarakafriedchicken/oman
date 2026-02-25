@@ -1,394 +1,221 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطعم البركة - المنيو الذكي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --main-red: #d32f2f; --main-yellow: #ffc107; 
-            --bg: #f8f9fa; --text: #2d3436; --card-bg: #ffffff;
-        }
-        [data-theme="dark"] {
-            --bg: #121212; --text: #ffffff; --card-bg: #1e1e1e;
-        }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; transition: 0.3s; padding-bottom: 80px; }
-        
-        #home-page { 
-            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/HTWhBfwz/Untitled-Project-7.jpg');
-            background-size: cover; background-position: center; color: white; text-align: center; padding: 20px;
-        }
-        .home-logo { width: 140px; border-radius: 50%; border: 4px solid var(--main-yellow); margin-bottom: 15px; background:white; }
-        .info-tag { background: var(--main-yellow); color: #000; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
-        .start-btn { background: var(--main-red); color: white; border: none; padding: 15px 50px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .start-btn:disabled { background: #888; cursor: not-allowed; }
-
-        .header { background: var(--main-red); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .tabs { display: flex; overflow-x: auto; background: var(--card-bg); padding: 10px; gap: 8px; border-bottom: 1px solid #ddd; scroll-behavior: smooth; }
-        .tab { white-space: nowrap; padding: 8px 18px; border-radius: 20px; border: 1px solid var(--main-red); background: none; color: var(--main-red); font-weight: bold; cursor: pointer; }
-        .tab.active { background: var(--main-red); color: white; }
-
-        .item-card { display: flex; background: var(--card-bg); margin: 12px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; height: 110px; border: 1px solid #eee; }
-        .item-card img { width: 110px; height: 110px; object-fit: cover; }
-        .item-info { padding: 10px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .item-info h3 { margin: 0; font-size: 0.95rem; }
-        .price-tag { color: var(--main-red); font-weight: bold; margin-top: 5px; }
-
-        .page-content { display: none; padding-bottom: 120px; }
-        .opt-box { background: var(--card-bg); margin: 15px; padding: 15px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        select, input, textarea { width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 1px solid #ccc; font-family: 'Cairo'; box-sizing: border-box; background: var(--bg); color: var(--text); }
-
-        .qty-controls { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 10px; }
-        .qty-btn { background: var(--main-yellow); border: none; width: 40px; height: 40px; border-radius: 10px; font-weight: bold; font-size: 1.2rem; cursor: pointer; }
-
-        .footer { position: fixed; bottom: 0; width: 100%; background: var(--card-bg); border-top: 2px solid var(--main-red); z-index: 1000; }
-        .nav-bar { display: flex; justify-content: space-around; padding: 10px; background: rgba(0,0,0,0.02); }
-        .nav-item { border: none; background: none; color: var(--text); font-family: 'Cairo'; font-size: 0.8rem; cursor: pointer; font-weight: bold; position: relative; }
-        .cart-count { position: absolute; top: -8px; right: -15px; background: var(--main-yellow); color: #000; padding: 2px 7px; border-radius: 50%; font-size: 0.75rem; font-weight: bold; }
-        
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
-        .c-btn { text-decoration: none; color: white; padding: 10px; border-radius: 8px; font-size: 0.8rem; text-align: center; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .c-btn.red { background: var(--main-red); }
-        .c-btn.insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .c-btn.fb { background: #1877F2; }
-        .c-btn.call { background: #2d3436; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطعم البركة - المنيو الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--main-red:#d32f2f;
+--main-yellow:#ffc107;
+--bg:#f8f9fa;
+--text:#2d3436;
+--card-bg:#ffffff;
+}
+[data-theme="dark"]{
+--bg:#121212;
+--text:#ffffff;
+--card-bg:#1e1e1e;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);margin:0;padding-bottom:80px}
+.header{background:var(--main-red);color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000}
+.tabs{display:flex;overflow-x:auto;background:var(--card-bg);padding:10px;gap:8px;border-bottom:1px solid #ddd}
+.tab{padding:8px 18px;border-radius:20px;border:1px solid var(--main-red);background:none;color:var(--main-red);font-weight:bold;cursor:pointer}
+.tab.active{background:var(--main-red);color:#fff}
+.item-card{display:flex;background:var(--card-bg);margin:12px;border-radius:15px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);cursor:pointer;height:110px}
+.item-card img{width:110px;height:110px;object-fit:cover}
+.item-info{padding:10px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.price-tag{color:var(--main-red);font-weight:bold;margin-top:5px}
+.page-content{display:none;padding-bottom:120px}
+.opt-box{background:var(--card-bg);margin:15px;padding:15px;border-radius:12px;border:1px solid #eee}
+input,select,textarea{width:100%;padding:12px;margin-top:8px;border-radius:8px;border:1px solid #ccc;font-family:'Cairo'}
+.start-btn{background:var(--main-red);color:#fff;border:none;padding:12px;border-radius:30px;font-weight:bold;width:100%;cursor:pointer}
+.footer{position:fixed;bottom:0;width:100%;background:var(--card-bg);border-top:2px solid var(--main-red)}
+.nav-bar{display:flex;justify-content:space-around;padding:10px}
+.cart-count{background:var(--main-yellow);padding:2px 7px;border-radius:50%;font-size:.8rem}
+</style>
 </head>
 <body>
 
-<div id="home-page">
-    <img src="https://i.ibb.co/bRzWVmPC/logo.jpg" class="home-logo" alt="مطعم البركة">
-    <h1>مطعم البركة 🍗</h1>
-    <div class="info-tag">⏱️ استلام الطلب خلال 20 دقيقة فقط!</div>
-    <button class="start-btn" id="start-btn" onclick="goToMenu()" disabled>جاري تحميل المنيو ⏳...</button>
-    <div style="margin-top: 20px; font-size: 0.9rem;">📍 الخوض | الخوير</div>
-</div>
-
 <div id="menu-page" class="page-content">
-    <div class="header">
-        <button onclick="goToHome()" style="background:none; border:none; color:white; font-size:1.5rem;">🏠</button>
-        <span style="font-weight:bold">قائمة الطعام</span>
-        <button onclick="toggleTheme()" style="background:none; border:none; font-size:1.3rem;">🌓</button>
-    </div>
-    <div class="tabs" id="cat-tabs"></div>
-    <div id="items-list"></div>
+<div class="header">
+<span>قائمة الطعام</span>
+<button onclick="toggleTheme()">🌓</button>
 </div>
-
-<div id="options-page" class="page-content">
-    <div class="header">
-        <button onclick="goToMenu()" style="background:none; border:none; color:white;">⬅️ رجوع</button>
-        <span id="item-title-head">تخصيص الوجبة</span>
-        <span></span>
-    </div>
-    <div id="options-render"></div>
-    <div class="opt-box">
-        <label style="text-align: center; display: block; font-weight: bold;">🔢 العدد المطلوب:</label>
-        <div class="qty-controls">
-            <button class="qty-btn" onclick="changeOptQty(-1)">-</button>
-            <span id="opt-qty-val" style="font-size: 1.2rem; font-weight: bold;">1</span>
-            <button class="qty-btn" onclick="changeOptQty(1)">+</button>
-        </div>
-    </div>
-    <div style="padding: 15px;">
-        <button class="start-btn" style="width:100%" onclick="addItemToCart()">إضافة إلى السلة 🛒</button>
-    </div>
+<div class="tabs" id="cat-tabs"></div>
+<div id="items-list"></div>
 </div>
 
 <div id="cart-page" class="page-content">
-    <div class="header">
-        <span>سلة الطلبات</span>
-        <button onclick="goToMenu()" style="background:none; border:none; color:white; font-weight:bold;">+ إضافة صنف</button>
-    </div>
-    <div class="opt-box">
-        <label style="color:var(--main-red); font-weight:bold;">📍 اختر فرع الاستلام (جاهز خلال 20 دقيقة):</label>
-        <select id="branch-select" style="border: 2px solid var(--main-red); font-weight:bold;">
-            <option value="فرع الخوض - شارع البركات">فرع الخوض - شارع البركات</option>
-            <option value="فرع الخوير - شارع سوق الخوير">فرع الخوير - شارع سوق الخوير</option>
-        </select>
-    </div>
-    <div id="cart-display"></div>
-    <div class="opt-box" style="text-align: center;">
-        <h3>الإجمالي النهائي: <span id="total-val" style="color:var(--main-red);">0.000</span> ر.ع</h3>
-        <button class="start-btn" style="width:100%; background:#25D366; font-size:1.1rem;" onclick="submitOrder()">إرسال الطلب (واتساب) 💬</button>
-    </div>
-    
-    <div class="contact-grid">
-        <a href="tel:99876514" class="c-btn call">📞 99876514</a>
-        <a href="tel:90664108" class="c-btn call">📞 90664108</a>
-        <a href="https://maps.app.goo.gl/5ZAGoYCSfwv2YurZ6" class="c-btn red">📍 موقع الخوض</a>
-        <a href="https://maps.app.goo.gl/XpQSv5umViVYo7jX7" class="c-btn red">📍 موقع الخوير</a>
-        <a href="https://www.instagram.com/elbarakafriedchicken.oman/" target="_blank" class="c-btn insta">📸 إنستجرام</a>
-        <a href="https://www.facebook.com/profile.php?id=61564286235956" target="_blank" class="c-btn fb">📘 فيسبوك</a>
-    </div>
+<div class="header">
+<span>سلة الطلبات</span>
+<button onclick="goToMenu()">رجوع</button>
 </div>
 
-<div class="footer" id="footer-nav" style="display:none">
-    <div class="nav-bar">
-        <button class="nav-item" onclick="goToMenu()">🍴 المنيو</button>
-        <button class="nav-item" onclick="goToCart()">
-            🛒 السلة <span class="cart-count" id="c-count">0</span>
-        </button>
-    </div>
+<div class="opt-box">
+<label>👤 اسم العميل:</label>
+<input type="text" id="customer-name" placeholder="اكتب اسمك">
+</div>
+
+<div class="opt-box">
+<label>📞 رقم العميل:</label>
+<input type="tel" id="customer-phone" placeholder="مثال: 99876543">
+</div>
+
+<div class="opt-box">
+<label>⏱️ وقت الاستلام:</label>
+<select id="pickup-time">
+<option value="خلال 20 دقيقة">خلال 20 دقيقة</option>
+<option value="بعد 30 دقيقة">بعد 30 دقيقة</option>
+<option value="بعد 45 دقيقة">بعد 45 دقيقة</option>
+<option value="بعد ساعة">بعد ساعة</option>
+</select>
+</div>
+
+<div id="cart-display"></div>
+
+<div class="opt-box">
+<h3>الإجمالي: <span id="total-val">0.000</span> ر.ع</h3>
+<button class="start-btn" style="background:#25D366" onclick="submitOrder()">إرسال الطلب واتساب</button>
+</div>
+</div>
+
+<div class="footer">
+<div class="nav-bar">
+<button onclick="goToMenu()">🍴 المنيو</button>
+<button onclick="goToCart()">🛒 السلة <span class="cart-count" id="c-count">0</span></button>
+</div>
 </div>
 
 <script>
-    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_mLvfHoHl4JY7Njpl7mfVL1gXbhg_tBbGyi-NWLacXPmRmPornWAg7bqDBGdNya2Ky_haLSvuBD6j/pub?output=csv";
-    
-    // الصوصات والمشروبات المحدثة
-    const saucesUI = `<option value="صوص رانش">صوص رانش</option><option value="صوص باربيكو">صوص باربيكو</option><option value="صوص كوكتيل">صوص كوكتيل</option><option value="صوص حار">صوص حار</option><option value="صوص سويت شيلي">صوص سويت شيلي</option><option value="صوص ثوميه">صوص ثوميه</option><option value="حلقات هالبينو">حلقات هالبينو</option>`;
-    
-    const drinksUI = `<option value="السي كولا">السي كولا</option><option value="السي تفاح">السي تفاح</option><option value="السي كولا دايت">السي كولا دايت</option><option value="السي ليمون">السي ليمون</option><option value="السي ستريم">السي ستريم</option><option value="السي برتقال">السي برتقال</option><option value="السي حمضيات">السي حمضيات</option><option value="ماء (+0.100)">ماء (+0.100 ر.ع)</option>`;
+const saucesUI=`
+<option>صوص رانش</option>
+<option>صوص باربيكو</option>
+<option>صوص كوكتيل</option>
+<option>صوص حار</option>
+<option>صوص سويت شيلي</option>
+<option>صوص ثوميه</option>
+<option>حلقات هالبينو</option>
+`;
 
-    // الترتيب المطلوب للتبويبات
-    const allowedTabs = ["بروست", "استريبس", "سندوتشات", "اتشيكن فرايز", "اضافات وجبات"];
+const drinksUI=`
+<option>السي كولا</option>
+<option>السي تفاح</option>
+<option>السي كولا دايت</option>
+<option>السي ليمون</option>
+<option>السي ستريم</option>
+<option>السي برتقال</option>
+<option>السي حمضيات</option>
+`;
 
-    let menuData = {};
-    let cart = [];
-    let selectedItem = null;
-    let currentOptQty = 1;
+let menuData={
+"بروست":[{name:"بروست 4 قطع",price:1.500}],
+"استريبس":[{name:"استريبس 5 قطع",price:1.200}],
+"سندوتشات":[{name:"توستر",price:1.000}],
+"اتشيكن فرايز":[{name:"اتشيكن فرايز",price:1.300}],
+"إضافات وجبات":[
+{name:"باكيت شيبس",price:0.300},
+{name:"مياه",price:0.100},
+{name:"قطع استريبس",price:0.500},
+{name:"مشروب غازي",price:0.200}
+]
+};
 
-    async function fetchMenuData() {
-        try {
-            const response = await fetch(csvUrl);
-            const csvText = await response.text();
-            
-            const rows = csvText.split('\n').map(r => r.trim()).filter(r => r);
-            
-            // تهيئة الكائنات بناءً على الترتيب المطلوب
-            allowedTabs.forEach(tab => menuData[tab] = []);
+let cart=[];
 
-            for(let i = 1; i < rows.length; i++) {
-                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-                if(cols.length < 3) continue;
-
-                let originalCat = cols[0];
-                let name = cols[1];
-                let price = parseFloat(cols[2].replace(/[^\d.]/g, '')) || 0;
-                let img = cols[3] ? cols[3].replace(/[\[\]]/g, '') : '';
-                let flv = cols[4] === 'نعم';
-                let s = parseInt(cols[5]) || 0;
-                let d = parseInt(cols[6]) || 0;
-
-              // تحديد التصنيف بشكل منظم بدون تداخل
-let finalCat = "";
-
-// أولاً: الأصناف الرئيسية
-if (originalCat.includes("بروست")) {
-    finalCat = "بروست";
-}
-else if (originalCat.includes("استريبس") && !name.includes("قطعة")) {
-    finalCat = "استريبس";
-}
-else if (originalCat.includes("سندوتش") || originalCat.includes("توستر")) {
-    finalCat = "سندوتشات";
-}
-else if (originalCat.includes("فرايز")) {
-    finalCat = "اتشيكن فرايز";
+function renderTabs(){
+const tabs=document.getElementById("cat-tabs");
+tabs.innerHTML="";
+Object.keys(menuData).forEach((cat,i)=>{
+tabs.innerHTML+=`<button class="tab ${i===0?'active':''}" onclick="showCategory('${cat}',this)">${cat}</button>`;
+});
 }
 
-// ثانياً: الإضافات فقط
-const addonsKeywords = [
-    "صوص",
-    "مياه",
-    "ماء",
-    "مشروب",
-    "خبز",
-    "قطعة",
-    "إضافة",
-    "كومبو"
-];
-
-if (
-    addonsKeywords.some(key => name.includes(key)) ||
-    originalCat.includes("إضافات")
-) {
-    finalCat = "اضافات وجبات";
+function showCategory(cat,btn){
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+if(btn)btn.classList.add("active");
+const list=document.getElementById("items-list");
+list.innerHTML="";
+menuData[cat].forEach(item=>{
+list.innerHTML+=`
+<div class="item-card" onclick='addToCart(${JSON.stringify(item)})'>
+<img src="https://via.placeholder.com/110">
+<div class="item-info">
+<h3>${item.name}</h3>
+<span class="price-tag">${item.price.toFixed(3)} ر.ع</span>
+</div>
+</div>`;
+});
 }
 
-// لو مفيش تصنيف اتحط لأي سبب
-if (!finalCat) {
-    finalCat = "اضافات وجبات";
+function addToCart(item){
+cart.push({...item,qty:1});
+document.getElementById("c-count").innerText=cart.length;
+alert("تمت الإضافة للسلة");
 }
 
-                // تغيير صورة الاستريبس
-                if (name.includes("استريبس")) {
-                    img = "https://i.ibb.co/Vph8WY44/mmw-638669571739251392.webp";
-                }
+function goToMenu(){
+document.getElementById("menu-page").style.display="block";
+document.getElementById("cart-page").style.display="none";
+renderTabs();
+showCategory(Object.keys(menuData)[0]);
+}
 
-                if(menuData[finalCat]) {
-                    menuData[finalCat].push({ id: i, name, price, img, flv, s, d });
-                }
-            }
+function goToCart(){
+document.getElementById("menu-page").style.display="none";
+document.getElementById("cart-page").style.display="block";
+renderCart();
+}
 
-            const btn = document.getElementById('start-btn');
-            btn.innerText = "تصفح المنيو واطلب الآن 🍗";
-            btn.disabled = false;
-        } catch(e) {
-            alert("حدث خطأ في تحميل البيانات.");
-        }
-    }
+function renderCart(){
+let display=document.getElementById("cart-display");
+display.innerHTML="";
+let total=0;
+cart.forEach(i=>{
+total+=i.price*i.qty;
+display.innerHTML+=`<div class="opt-box">${i.name} - ${i.price.toFixed(3)} ر.ع</div>`;
+});
+document.getElementById("total-val").innerText=total.toFixed(3);
+}
 
-    function showPage(id) {
-        document.querySelectorAll('.page-content, #home-page').forEach(p => p.style.display = 'none');
-        document.getElementById(id).style.display = id === 'home-page' ? 'flex' : 'block';
-    }
-    
-    function goToHome() { showPage('home-page'); document.getElementById('footer-nav').style.display='none'; }
-    
-    function goToMenu() { 
-        showPage('menu-page'); 
-        document.getElementById('footer-nav').style.display='block';
-        renderTabs();
-        showCategory(allowedTabs[0]);
-    }
+function submitOrder(){
+if(!cart.length)return alert("السلة فارغة");
 
-    function renderTabs() {
-        const tabs = document.getElementById('cat-tabs');
-        tabs.innerHTML = '';
-        allowedTabs.forEach((cat, index) => {
-            if(menuData[cat] && menuData[cat].length > 0) {
-                tabs.innerHTML += `<button class="tab ${index===0?'active':''}" onclick="showCategory('${cat}', this)">${cat}</button>`;
-            }
-        });
-    }
+const name=document.getElementById("customer-name").value.trim();
+const phone=document.getElementById("customer-phone").value.trim();
+const time=document.getElementById("pickup-time").value;
 
-    function showCategory(cat, btn = null) {
-        if(btn) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
-        }
-        const list = document.getElementById('items-list');
-        list.innerHTML = '';
-        if(menuData[cat]) {
-            menuData[cat].forEach(item => {
-                list.innerHTML += `
-                    <div class="item-card" onclick='initOptions(${JSON.stringify(item)})'>
-                        <img src="${item.img || 'https://via.placeholder.com/110?text=Baraka'}">
-                        <div class="item-info">
-                            <h3>${item.name}</h3>
-                            <span class="price-tag">${item.price.toFixed(3)} ر.ع</span>
-                        </div>
-                    </div>`;
-            });
-        }
-    }
+if(!name||!phone)return alert("اكتب الاسم والرقم");
 
-    function initOptions(item) {
-        selectedItem = item;
-        currentOptQty = 1;
-        document.getElementById('opt-qty-val').innerText = currentOptQty;
-        showPage('options-page');
-        document.getElementById('item-title-head').innerText = item.name;
-        
-        let html = `<div class="opt-box"><h3>السعر الأساسي: ${item.price.toFixed(3)} ر.ع</h3></div>`;
-        if(item.flv) html += `<div class="opt-box"><label>🌶️ اختر الطعم:</label><select id="sel-flv"><option>عادي</option><option>حار</option></select></div>`;
-        
-        if(item.name.includes("توستر") || item.name.includes("تربل توستر")) {
-            html += `<div class="opt-box" style="border-color:var(--main-yellow)">
-                <label>🧀 إضافة جبن اختياري (+0.100 ر.ع):</label>
-                <select id="sel-cheese">
-                    <option value="0">بدون إضافة</option>
-                    <option value="0.100">إضافة شريحة جبن (+0.100 ر.ع)</option>
-                    <option value="0.200">إضافة شريحتين جبن (+0.200 ر.ع)</option>
-                </select>
-            </div>`;
-        }
+localStorage.setItem("baraka_name",name);
+localStorage.setItem("baraka_phone",phone);
 
-        if(item.s) for(let i=1; i<=item.s; i++) html += `<div class="opt-box"><label>🧂 صوص ${i}:</label><select class="sel-sauce">${saucesUI}</select></div>`;
-        if(item.d) for(let i=1; i<=item.d; i++) html += `<div class="opt-box"><label>🥤 مشروب ${i}:</label><select class="sel-drink">${drinksUI}</select></div>`;
-        html += `<div class="opt-box"><label>📝 ملاحظات إضافية:</label><textarea id="sel-note" placeholder="مثلاً: بدون خس، كتشب زيادة..."></textarea></div>`;
-        
-        document.getElementById('options-render').innerHTML = html;
-    }
+let text=`طلب جديد - مطعم البركة 🍗\n`;
+text+=`👤 الاسم: ${name}\n`;
+text+=`📞 الرقم: ${phone}\n`;
+text+=`⏱️ وقت الاستلام: ${time}\n\n`;
 
-    function changeOptQty(change) {
-        currentOptQty += change;
-        if(currentOptQty < 1) currentOptQty = 1;
-        document.getElementById('opt-qty-val').innerText = currentOptQty;
-    }
+cart.forEach(i=>{
+text+=`▪️ ${i.name} - ${i.price.toFixed(3)} ر.ع\n`;
+});
 
-    function addItemToCart() {
-        const cheeseSelect = document.getElementById('sel-cheese');
-        const cheesePrice = cheeseSelect ? parseFloat(cheeseSelect.value) : 0;
-        const cheeseText = cheeseSelect && cheesePrice > 0 ? cheeseSelect.options[cheeseSelect.selectedIndex].text : '';
+text+=`\nالإجمالي: ${document.getElementById("total-val").innerText} ر.ع`;
 
-        let extraDrinksPrice = 0;
-        let drinksArr = Array.from(document.querySelectorAll('.sel-drink')).map(d => {
-            if(d.value.includes("ماء")) extraDrinksPrice += 0.100;
-            return d.value;
-        });
+window.open(`https://wa.me/96892018510?text=${encodeURIComponent(text)}`);
+}
 
-        const finalItemPrice = selectedItem.price + cheesePrice + extraDrinksPrice;
+function toggleTheme(){
+document.body.setAttribute("data-theme",
+document.body.getAttribute("data-theme")==="dark"?"light":"dark");
+}
 
-        const entry = {
-            name: selectedItem.name,
-            qty: currentOptQty,
-            unitPrice: finalItemPrice,
-            totalPrice: finalItemPrice * currentOptQty,
-            flv: document.getElementById('sel-flv')?.value || '',
-            cheeseInfo: cheeseText,
-            sauces: Array.from(document.querySelectorAll('.sel-sauce')).map(s => s.value),
-            drinks: drinksArr,
-            note: document.getElementById('sel-note').value
-        };
-        cart.push(entry);
-        document.getElementById('c-count').innerText = cart.length;
-        goToMenu();
-    }
-
-    function goToCart() {
-        showPage('cart-page');
-        const display = document.getElementById('cart-display');
-        display.innerHTML = '';
-        let total = 0;
-        cart.forEach((item, idx) => {
-            total += item.totalPrice;
-            display.innerHTML += `
-                <div class="opt-box" style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="flex:1;">
-                        <strong style="font-size:1.1rem">${item.name} <span style="color:var(--main-red)">(×${item.qty})</span></strong><br>
-                        <small style="color:#666">
-                            ${item.flv ? `الطعم: ${item.flv} | ` : ''}
-                            ${item.cheeseInfo ? `<br>🧀 ${item.cheeseInfo}` : ''}
-                            ${item.sauces.length ? `<br>🧂 صوص: ${item.sauces.join('، ')}` : ''}
-                            ${item.drinks.length ? `<br>🥤 مشروب/ماء: ${item.drinks.join('، ')}` : ''}
-                            ${item.note ? `<br>📝 ملاحظة: ${item.note}` : ''}
-                        </small>
-                        <div style="font-weight:bold; margin-top:5px; color:var(--main-red)">${item.totalPrice.toFixed(3)} ر.ع</div>
-                    </div>
-                    <button onclick="remove(${idx})" style="color:red; border:none; background:none; font-size:1.5rem; cursor:pointer; padding:10px;">🗑️</button>
-                </div>`;
-        });
-        document.getElementById('total-val').innerText = total.toFixed(3);
-    }
-
-    function remove(i) { cart.splice(i, 1); goToCart(); document.getElementById('c-count').innerText = cart.length; }
-
-    function submitOrder() {
-        if(!cart.length) return alert("السلة فارغة.");
-        const branch = document.getElementById('branch-select').value;
-        let text = `*طلب جديد - مطعم البركة 🍗*\n📍 فرع الاستلام: ${branch}\n⏱️ وقت الاستلام: خلال 20 دقيقة\n\n`;
-        
-        cart.forEach(i => {
-            text += `▪️ *${i.name}* (العدد: ${i.qty})\n`;
-            if(i.flv) text += `   - الطعم: ${i.flv}\n`;
-            if(i.cheeseInfo) text += `   - الجبن: ${i.cheeseInfo}\n`;
-            if(i.sauces.length) text += `   - الصوص: ${i.sauces.join('، ')}\n`;
-            if(i.drinks.length) text += `   - المشروب: ${i.drinks.join('، ')}\n`;
-            if(i.note) text += `   - ملاحظة: ${i.note}\n`;
-            text += `   - السعر: ${i.totalPrice.toFixed(3)} ر.ع\n\n`;
-        });
-        text += `====================\n💰 *الإجمالي النهائي: ${document.getElementById('total-val').innerText} ر.ع*\n====================`;
-        window.open(`https://wa.me/96892018510?text=${encodeURIComponent(text)}`);
-    }
-
-    function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
-
-    fetchMenuData();
+window.onload=function(){
+goToMenu();
+document.getElementById("customer-name").value=localStorage.getItem("baraka_name")||"";
+document.getElementById("customer-phone").value=localStorage.getItem("baraka_phone")||"";
+};
 </script>
+
 </body>
 </html>
-
