@@ -2,9 +2,26 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مطعم البركة - المنيو الذكي</title>
+    
+    <!-- إعدادات تطبيق الويب (PWA) للشاشة الرئيسية -->
+    <meta name="theme-color" content="#d32f2f"> <!-- لون شريط الحالة -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="مطعم البركة"> <!-- الاسم عند التثبيت في iOS -->
+    <meta name="application-name" content="مطعم البركة"> <!-- الاسم عند التثبيت في Android -->
+
+    <!-- الأيقونات -->
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/bRzWVmPC/logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/bRzWVmPC/logo.jpg">
+    
+    <!-- ملف الـ Manifest لضمان ظهور الاسم والأيقونة بشكل صحيح على الأندرويد -->
+    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22%D9%85%D8%B7%D8%B9%D9%85%20%D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%22%2C%22short_name%22%3A%22%D9%85%D8%B7%D8%B9%D9%85%20%D8%A7%D9%84%D8%A8%D8%B1%D9%83%D8%A9%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8f9fa%22%2C%22theme_color%22%3A%22%23d32f2f%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fi.ibb.co%2FbRzWVmPC%2Flogo.jpg%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%5D%7D">
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         :root { 
             --main-red: #d32f2f; --main-yellow: #ffc107; 
