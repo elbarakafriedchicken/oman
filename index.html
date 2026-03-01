@@ -216,6 +216,11 @@
                     </div>
                     
                     <div>
+                        <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">رقم الهاتف (للتواصل السريع)</label>
+                        <input type="tel" id="customer-phone" placeholder="أدخل رقمك" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary dark:text-white outline-none">
+                    </div>
+                    
+                    <div>
                         <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">فرع الاستلام</label>
                         <select id="branch-select" class="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary dark:text-white outline-none">
                             <option value="">اختر الفرع...</option>
@@ -784,9 +789,11 @@
             }
 
             const custName = document.getElementById('customer-name').value.trim();
+            const custPhone = document.getElementById('customer-phone').value.trim();
             const branch = document.getElementById('branch-select').value;
             
             if(!custName) return showToast("يرجى كتابة اسم العميل أولاً.", 'error');
+            if(!custPhone) return showToast("يرجى كتابة رقم الهاتف.", 'error');
             if(!branch) return showToast("يرجى اختيار فرع الاستلام.", 'error');
 
             let finalTime = `أقرب وقت (خلال ${deliveryTime} دقيقة)`;
@@ -815,6 +822,25 @@
             });
             text += `====================\n💰 *الإجمالي: ${document.getElementById('total-val').innerText} ر.ع*\n====================`;
             
+            // --- إرسال البيانات إلى شيت قاعدة بيانات العملاء ---
+            // ⚠️ تم إضافة الرابط الخاص بك هنا
+            const scriptURL = "https://script.google.com/macros/s/AKfycbwmJ9gmhIDRsUfqKH6Wq-FDSoINPTDcArI4EuTGfHbmw2koHUM0UKPAVB9h0LymSIp9/exec"; 
+            const totalAmount = parseFloat(document.getElementById('total-val').innerText);
+
+            if(scriptURL && scriptURL !== "أضف_الرابط_هنا") {
+                fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors', // نتجاهل الرد لكي لا نعطل العميل
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: custPhone,
+                        name: custName,
+                        amount: totalAmount
+                    })
+                }).catch(e => console.error('Sheet Error:', e));
+            }
+            // ---------------------------------------------------
+
             showToast('جاري تحويلك للواتساب لإتمام الطلب... 🚀');
             setTimeout(() => {
                 window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`);
